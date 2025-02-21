@@ -1,5 +1,8 @@
 package com.sdl.background.location.checker;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -18,5 +21,20 @@ public class LocationCheckerPlugin extends Plugin {
         JSObject ret = new JSObject();
         ret.put("value", implementation.echo(value));
         call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void checkPermission(PluginCall call) {
+        boolean backgroundLocationGranted = getBackgroundLocationPermissionState();
+
+        if (backgroundLocationGranted) {
+            call.resolve(new JSObject().put("status", "granted"));
+        } else {
+            call.resolve(new JSObject().put("status", "denied"));
+        }
+    }
+
+    private boolean getBackgroundLocationPermissionState() {
+        return getContext().checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 }
