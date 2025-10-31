@@ -6,6 +6,9 @@ export class LocationCheckerWeb extends WebPlugin implements LocationCheckerPlug
   checkPermission(): Promise<{ status: string; }> {
     throw new Error('Method not implemented.');
   }
+  isGMSAvailable(): Promise<{ available: boolean }> {
+    throw new Error('Method not implemented.');
+  }
   async echo(options: { value: string }): Promise<{ value: string }> {
     console.log('ECHO', options);
     return options;

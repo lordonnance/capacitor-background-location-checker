@@ -34,6 +34,21 @@ public class LocationCheckerPlugin extends Plugin {
         }
     }
 
+    @PluginMethod()
+    public void isGMSAvailable(PluginCall call) {
+        PackageManager pm = getContext().getPackageManager();
+        boolean hasPlay;
+        try {
+        pm.getPackageInfo("com.google.android.gms", PackageManager.GET_ACTIVITIES);
+        hasPlay = true;
+        } catch (Exception e) {
+        hasPlay = false;
+        }
+        JSObject ret = new JSObject();
+        ret.put("available", hasPlay);
+        call.resolve(ret);
+    }
+
     private boolean getBackgroundLocationPermissionState() {
         return getContext().checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
